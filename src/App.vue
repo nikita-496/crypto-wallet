@@ -1,46 +1,48 @@
 <template>
   <div id="app">
-    <button @click="connect">{{ setButtonInner }}</button>
-    <balance-table v-if="isConnected" />
+    <connect-button
+      :provider="provider"
+      @handleConnection="setSigner($event)"
+    />
+    <balance-table v-if="signer" />
     <token-rate-table />
   </div>
 </template>
 
 <script>
+  const { ethers } = require('ethers');
   import TokenRateTable from './components/TokenRateTable.vue';
   import BalanceTable from './components/BalanceTable.vue';
+  import ConnectButton from './components/ConnectButton.vue';
   export default {
     components: {
       TokenRateTable,
       BalanceTable,
+      ConnectButton,
+    },
+    mounted() {
+      this.provider = new ethers.providers.Web3Provider(window.ethereum);
+      console.log(this.provider);
     },
     data: () => {
       return {
-        account: null,
-        isConnected: false,
+        provider: {},
+        signer: null,
       };
     },
     computed: {
-      setWalletAdrdess() {
-        const walletAdress = this.account[0].split('')
-        walletAdress.splice(4, walletAdress.length - 8, '...')
-        return walletAdress.join('')
-      },
-      setButtonInner() {
-        return this.isConnected ? this.setWalletAdrdess : 'Connect';
+      getWalletAddress() {
+        let walletAdress = null;
+        if (!this.signer) {
+          walletAdress = this.signer.geAddress();
+        }
+        return walletAdress;
       },
     },
     methods: {
-      async connect() {
-        if (typeof window.ethereum !== 'undefined') {
-          // MetaMask is installed!
-          try {
-            this.account = await window.ethereum.request({ method: 'eth_requestAccounts' });
-            this.isConnected = true;
-          } catch (error) {
-            throw new Error('Error connecting ...');
-          }
-        }
+      setSigner(value) {
+        this.signer = value;
+        console.log(this.signer)
       },
     },
   };
