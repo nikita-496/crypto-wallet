@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <connect-button
-      :provider="provider"
-      @handleConnection="setSigner($event)"
+      :provider='provider'
+      @handleConnection='setSigner($event)'
     />
-    <balance-table v-if="signer" />
+    <balance-table v-if='signer' :provider='provider' :signer='signer'/>
     <token-rate-table />
   </div>
 </template>
@@ -30,19 +30,10 @@
         signer: null,
       };
     },
-    computed: {
-      getWalletAddress() {
-        let walletAdress = null;
-        if (!this.signer) {
-          walletAdress = this.signer.geAddress();
-        }
-        return walletAdress;
-      },
-    },
     methods: {
       setSigner(value) {
         this.signer = value;
-        console.log(this.signer)
+        console.log(this.signer);
       },
     },
   };

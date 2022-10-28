@@ -14,8 +14,7 @@
     },
     data: () => {
       return {
-        account: null,
-        isConnected: false
+        account: null
       }
     },
     computed: {
