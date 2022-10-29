@@ -8,12 +8,11 @@ const provider = new ethers.providers.JsonRpcProvider(baseURL);
 
 const format = ethers.utils.formatUnits;
 
-const contract = Contract_information.map((token) => {
+const tokenContracts = Contract_information.map((token) => {
   const tokenSymbol = token.symbol;
-  return new ethers.Contract(token.address, ERC_20_ABI[0][tokenSymbol], provider);
+  return {
+    [tokenSymbol]: new ethers.Contract(token.address, ERC_20_ABI[0][tokenSymbol], provider),
+  };
 });
 
-//const [ETH, USDC, DAI, USDT] = Contract_information;
-
-
-export { provider, format, contract };
+export { provider, format, tokenContracts };
