@@ -3,7 +3,7 @@ import { abi as IUniswapV3PoolABI } from '@uniswap/v3-core/artifacts/contracts/i
 import { abi as QuoterABI } from '@uniswap/v3-periphery/artifacts/contracts/lens/Quoter.sol/Quoter.json';
 import { formTokens } from './pairTokens';
 
-const { getPoolImmutables } = require('./pool');
+const { getPoolImmutables } = require('../helpers');
 
 const pollAddress = {
   // ETH ---> USDT

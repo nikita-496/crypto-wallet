@@ -1,5 +1,5 @@
 const { ethers } = require('ethers');
-const { getAbi } = require('./pool');
+const { getAbi } = require('../helpers');
 
 export const formTokens = async (poolContract, provider) => {
   const tokenAddress0 = await poolContract.token0();
