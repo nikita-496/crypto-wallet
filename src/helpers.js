@@ -1,8 +1,7 @@
 const { default: axios } = require("axios");
-const config = require('./config/config')
 
 exports.getAbi = async (address) => {
-  const url = `https://api.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=${config.VUE_APP_ETHERSCAN_API_KEY}`
+  const url = `https://api.etherscan.io/api?module=contract&action=getabi&address=${address}&apikey=GFWRWBQ8AE2A9HC8UZCQMPPRVHJH4BVMXR`
   const response = await axios.get(url)
   const abi = JSON.parse(response.data.result)
   return abi
