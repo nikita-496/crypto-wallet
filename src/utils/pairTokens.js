@@ -15,7 +15,7 @@ export const formTokens = async (poolContract, provider) => {
 
   const tokenSymbol0 = (await tokenContract0.symbol) ? await tokenContract0.symbol() : 'USDC';
   const tokenSymbol1 = await tokenContract1.symbol();
-  const tokenDecimals0 = 18;
+  const tokenDecimals0 = (await tokenContract0.decimals) ? await tokenContract0.decimals() : 6;
   const tokenDecimals1 = await tokenContract1.decimals();
 
   return { tokenDecimals0, tokenDecimals1, tokenSymbol0, tokenSymbol1 };
