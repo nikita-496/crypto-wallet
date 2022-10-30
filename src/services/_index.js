@@ -1,8 +1,9 @@
 const { ethers } = require('ethers');
 const ERC_20_ABI = require('../assets/ERC_20_ABI.json');
 const Contract_information = require('../assets/Contract_Information.json');
+const config = require('../config/config')
 
-const baseURL = `https://mainnet.infura.io/v3/${process.env.VUE_APP_INFURA_KEY}`;
+const baseURL = `https://mainnet.infura.io/v3/${config.VUE_APP_INFURA_KEY}`;
 
 const provider = new ethers.providers.JsonRpcProvider(baseURL);
 
