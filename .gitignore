@@ -23,3 +23,9 @@ pnpm-debug.log*
 *.sw?
 
 components.drawio
+.env
+/src/utils/fetcher.js
+/src/utils/pool.js
+/src/utils/service_2.js
+/src/services/SpotPricesService.js
+/src/services/TokenCustomizer.js

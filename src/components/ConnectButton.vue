@@ -1,6 +1,11 @@
 <template>
   <div>
-    <button @click="connect">{{ setButtonInner }}</button>
+    <button
+      class="border border-gray-700 outline-none px-6 py-2 font-poppins font-bold text-lg text-white rounded-3xl leading-[24px] hover:bg-pink-600 transition-all"
+      @click="action"
+    >
+      {{ setButtonInner }}
+    </button>
   </div>
 </template>
 
@@ -14,15 +19,23 @@
     },
     data: () => {
       return {
-        account: null
-      }
+        account: null,
+      };
     },
     computed: {
       setButtonInner() {
-        return this.account ? `${this.account[0]?.substring(0,8)}...` : 'Connect';
+        return this.account ? `${this.account[0]?.substring(0, 8)}...` : 'Connect';
       },
     },
     methods: {
+      action() {
+        if (this.account) {
+          this.account = null;
+           this.$emit('handleLogout', this.account);
+        } else {
+          this.connect();
+        }
+      },
       async connect() {
         if (typeof window.ethereum !== 'undefined') {
           // MetaMask is installed!
