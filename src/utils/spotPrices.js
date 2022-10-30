@@ -5,27 +5,40 @@ import { formTokens } from './pairTokens';
 
 const { getPoolImmutables } = require('./pool');
 
-// ETH ---> USDT [+]
-const poolAddress_ETH_USDT = '0x11b815efb8f581194ae79006d24e0d814b7697f6';
+const pollAddress = {
+  // ETH ---> USDT
+  ETH_USDT: '0x11b815efb8f581194ae79006d24e0d814b7697f6',
 
-// USDC ---> USDT
-// incorrect value. USDC has no contract data --> https://etherscan.io/address/0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48#readContract
-//const poolAddress_USDC_USDT = '0x3416cf6c708da44db2624d63ea0aaef7113527c6';
+  // USDC ---> USDT
+  USDC_USDT: '0x3416cf6c708da44db2624d63ea0aaef7113527c6',
 
-// DAI---> USDT [+]
-//const poolAdress_DAI_USDT = '0x6f48eca74b38d2936b02ab603ff4e36a6c0e3a77';
+  // DAI---> USDT
+  DAI_USDT: '0x48da0965ab2d2cbf1c17c09cfb5cbe67ad5b1406',
 
-// TEST
-// WBETHTC ---> ETH
-//const poolAddress1 = '0xcbcdf9626bc03e24f779434178a73a0b4bad62ed';
+  // TEST
+  // WBETHTC ---> ETH
+  // WBETHTC_ETH: '0xcbcdf9626bc03e24f779434178a73a0b4bad62ed'
+};
 
-const getPrice = async (input, provider) => {
+const format = (value, type) => {
+  let formatedValue = value
+  if(type === 'WETH') {
+    formatedValue = Number(formatedValue).toFixed(2).toString()
+    formatedValue = formatedValue.split('')
+    formatedValue.splice(1, 0, ',')
+    return formatedValue.join('')
+  }
+  return Number(formatedValue).toFixed(5).toString()
+}
+
+const init = async (input, provider, address) => {
   // https://docs.uniswap.org/protocol/reference/deployments
   const quoterAddress = '0xb27308f9F90D607463bb33eA1BeBb41C27CE5AB6';
-  const poolContract = new ethers.Contract(poolAddress_ETH_USDT, IUniswapV3PoolABI, provider);
+  const poolContract = new ethers.Contract(address, IUniswapV3PoolABI, provider);
 
-  const { tokenDecimals0, tokenDecimals1, tokenSymbol0, tokenSymbol1 } = await formTokens(
-    poolContract, provider
+  const { tokenDecimals0, tokenDecimals1, tokenSymbol0, /*tokenSymbol1*/ } = await formTokens(
+    poolContract,
+    provider
   );
 
   const quoterContract = new ethers.Contract(quoterAddress, QuoterABI, provider);
@@ -47,9 +60,19 @@ const getPrice = async (input, provider) => {
 
   const amountOut = ethers.utils.formatUnits(quotedAmountOut, tokenDecimals1);
 
-  console.log('==========');
+  /*console.log('==========');
   console.log(`${input} ${tokenSymbol0} can be swapped for ${amountOut} ${tokenSymbol1}`);
-  console.log('==========');
+  console.log('==========');*/
+
+  return format(amountOut, tokenSymbol0) ;
+};
+
+const getPrice = async (input, provider) => {
+  var prices = [];
+  for (let address in pollAddress) {
+    prices.push(await init(input, provider, pollAddress[address]));
+  }
+  return prices;
 };
 
 export { getPrice };

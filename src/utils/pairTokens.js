@@ -8,7 +8,7 @@ export const formTokens = async (poolContract, provider) => {
   const tokenAbi0 = await getAbi(tokenAddress0);
   const tokenAbi1 = await getAbi(tokenAddress1);
 
-  console.log(tokenAddress0, tokenAddress1)
+  //console.log(tokenAddress0, tokenAddress1)
 
   const tokenContract0 = new ethers.Contract(tokenAddress0, tokenAbi0, provider);
   const tokenContract1 = new ethers.Contract(tokenAddress1, tokenAbi1, provider);
