@@ -14,7 +14,9 @@ module.exports = {
     extend: {
       colors: {
         'black-app': '#150C21',
-        blackberry: '#1F1D2C',
+        'blackberry': '#1F1D2C',
+        'currant': '#200F2D',
+        'hoverCurrant': '#281237',
       },
       fontFamily: {
         inter: [

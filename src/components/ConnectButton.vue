@@ -1,7 +1,7 @@
 <template>
   <div>
     <button
-      class="border border-gray-700 outline-none px-6 py-2 font-poppins font-bold text-lg text-white rounded-3xl leading-[24px] hover:bg-pink-600 transition-all"
+      class="relative border border-gray-700 outline-none px-6 py-2 font-poppins font-bold text-lg text-white rounded-3xl leading-[24px] hover:bg-pink-600 transition-all"
       @click="action"
     >
       {{ setButtonInner }}
@@ -31,7 +31,7 @@
       action() {
         if (this.account) {
           this.account = null;
-           this.$emit('handleLogout', this.account);
+          this.$emit('handleLogout', this.account);
         } else {
           this.connect();
         }
@@ -47,9 +47,10 @@
             throw new Error('Error connecting ...');
           }
         }
+        else {
+            this.$emit('opneModal');
+          }
       },
     },
   };
 </script>
-
-<style lang="scss" scoped></style>

@@ -1,7 +1,10 @@
 <template>
   <div id="app" class="flex flex-col justify-center min-h-screen sm:px-16 px-6 bg-black-app">
-    <header class="flex flex-row justify-between items-center w-full sm:py-10 py-6">
+    <header class="relative flex flex-row justify-between items-center w-full sm:py-10 py-6">
       <img class="w-16 h-16 object-contain" src="./assets/uniswapLogo.png" alt="uniswap logo" />
+      <transition name="slide" appear>
+        <modal class="modal" v-if="showModal" @closeModal="() => (this.showModal = false)" />
+      </transition>
       <div class="ml-10 flex items-center">
         <span class="relative flex h-2 w-2">
           <span
@@ -21,6 +24,7 @@
         :provider="provider"
         @handleConnection="setSigner($event)"
         @handleLogout="setSigner($event)"
+        @opneModal="() => this.showModal = true"
       />
     </header>
     <main class="flex-1 flex justify-start items-center flex-col w-full">
@@ -42,10 +46,12 @@
   const { ethers } = require('ethers');
   import TokenRateTable from './components/TokenRateTable.vue';
   import ConnectButton from './components/ConnectButton.vue';
+  import Modal from './components/Modal.vue';
   export default {
     components: {
       TokenRateTable,
       ConnectButton,
+      Modal,
     },
     mounted() {
       this.provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -54,6 +60,7 @@
       return {
         provider: {},
         signer: null,
+        showModal: false
       };
     },
     methods: {
@@ -64,4 +71,17 @@
   };
 </script>
 
-<style></style>
+<style scoped>
+  .modal {
+    right: 35vw;
+    z-index: 999;
+  }
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: transform 0.5s;
+  }
+  .slide-enter,
+  .slide-leave-to {
+    transform: translateX(-20%) translateY(-100vh);
+  }
+</style>
