@@ -84,7 +84,11 @@
     watch: {
       signer: async function () {
         if (this.signer) {
-          this.balances = await BalanceService.read(await this.signer.getAddress());
+          const result = await BalanceService.read(await this.signer.getAddress());
+          this.balances = result.map((balance) => ({
+            ...balance,
+            value: Number(balance.value).toFixed(2).toString(),
+          }));
         }
       },
     },
